@@ -1,0 +1,62 @@
+project:
+  name: quickstart-drupal
+  owner: quickstart-eng@amazon.com
+  package_lambda: false
+  regions:
+  - ap-southeast-2
+  - eu-central-1
+  - eu-west-1
+  - us-east-1
+  - us-east-2
+  - us-west-2
+  s3_bucket: ''
+tests:
+  drupal-master:
+    parameters:
+      AutoScalingNotificationEmail: foo@example.com
+      AvailabilityZones: $[taskcat_getaz_2]
+      BastionAMIOS: Amazon-Linux2-HVM
+      BastionInstanceType: t2.micro
+      CloudFrontAlias: cdn.default
+      CloudFrontEnable: 'true'
+      CloudFrontPriceClass: use-all-edge-locations
+      DBAutoMinorVersionUpgrade: 'true'
+      DBBackupRetentionPeriod: '7'
+      DBInstanceClass: db.t2.small
+      DBMasterUserPassword: $[alfred_genpass_10]
+      DBMasterUsername: dbadmin
+      DBMultiAZ: 'true'
+      DrupalDbName: drupaldb
+      DrupalDbPassword: $[alfred_genpass_10]
+      DrupalDbUsername: drupal
+      DrupalSiteAdminEmail: foo@example.com
+      DrupalSiteAdminPassword: $[alfred_genpass_10]
+      DrupalSiteAdminUsername: drupaladmin
+      DrupalSiteDomain: localhost.local
+      DrupalSiteName: Drupal Test Site
+      DrupalVersion: '7'
+      ElastiCacheAutoMinorVersionUpgrade: 'true'
+      ElastiCacheEnable: 'true'
+      ElastiCacheNodeType: cache.t2.micro
+      ElastiCacheNumberOfNodes: '2'
+      KeyPair: $[alfred_getkeypair]
+      PhpVersion: php71
+      QSS3BucketName: $[taskcat_autobucket]
+      QSS3BucketRegion: $[taskcat_current_region]
+      RemoteAccessCIDR: 10.0.0.0/16
+      Route53HostedZoneId: ''
+      SSLCertificateId: ''
+      VPCCIDR: 10.0.0.0/16
+      WebServerDesiredCapacity: '2'
+      WebServerInstanceType: t2.micro
+      WebServerMaxSize: '3'
+      WebServerMinSize: '1'
+    regions:
+    - ap-southeast-2
+    - eu-central-1
+    - eu-west-1
+    - us-east-1
+    - us-east-2
+    - us-west-2
+    s3_bucket: ''
+    template: templates/drupal-master.template.yaml
