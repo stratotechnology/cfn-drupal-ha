@@ -274,10 +274,8 @@ Parameters:
     Type: String
   DrupalVersion:
     AllowedValues:
-      - '7'
-      - '8'
       - '9'
-    ConstraintDescription: Allowed values 7,8 or 9
+    ConstraintDescription: Allowed values 9
     Default: '9'
     Description: Drupal version to install
     Type: String
@@ -288,13 +286,10 @@ Parameters:
     Type: AWS::EC2::KeyPair::KeyName
   PhpVersion:
     AllowedValues:
-      - php56
-      - php70
-      - php71
-    ConstraintDescription: 'Choose a valid PHP version. Values can be php56, php70,
-      php71 '
-    Default: php71
-    Description: PHP version to be installed. PHP-5.6=php56, PHP-7.0=php70, PHP-7.1=php71
+      - php73
+    ConstraintDescription: 'Choose a valid PHP version. Values can php73'
+    Default: php73
+    Description: PHP version to be installed. PHP-7.3=php73
     Type: String
   PrivateSubnet1ID:
     Description: Private Subnet ID 1 located in Availability Zone 1

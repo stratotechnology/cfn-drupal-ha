@@ -86,6 +86,20 @@ Conditions:
     - !Ref 'DBMultiAZ'
     - 'true'
 Resources:
+  AuroraDBClusterParameterGroup: 
+    Type: "AWS::RDS::DBClusterParameterGroup"
+    Properties: 
+      Description: "aurora-mysql5.7 db cluster parameter group"
+      Family: aurora-mysql5.7
+      Parameters: 
+        character_set_database: utf32
+  AuroraDBParameterGroup: 
+    Properties: 
+      Description: "aurora-mysql5.7 db parameter group"
+      Family: aurora-mysql5.7
+      Parameters: 
+        sql_mode: IGNORE_SPACE
+    Type: "AWS::RDS::DBParameterGroup"
   AuroraDBSubnetGroup:
     Type: AWS::RDS::DBSubnetGroup
     Properties:
@@ -96,8 +110,9 @@ Resources:
     Properties:
       BackupRetentionPeriod: !Ref 'DBBackupRetentionPeriod'
       DBSubnetGroupName: !Ref 'AuroraDBSubnetGroup'
-      Engine: aurora
-      EngineVersion: '5.6'
+      DBClusterParameterGroupName: !Ref 'AuroraDBClusterParameterGroup'
+      Engine: aurora-mysql
+      EngineVersion: '5.7.mysql_aurora.2.08.2'
       MasterUsername: !Ref 'DBMasterUsername'
       MasterUserPassword: !Ref 'DBMasterUserPassword'
       VpcSecurityGroupIds:
@@ -108,11 +123,12 @@ Resources:
   AuroraDBPrimaryInstance:
     Type: AWS::RDS::DBInstance
     Properties:
-      Engine: aurora
-      EngineVersion: '5.6'
+      Engine: aurora-mysql
+      EngineVersion: '5.7.mysql_aurora.2.08.2'
       DBClusterIdentifier: !Ref 'AuroraDBCluster'
       DBInstanceClass: !Ref 'DBInstanceClass'
       DBSubnetGroupName: !Ref 'AuroraDBSubnetGroup'
+      DBParameterGroupName: !Ref 'AuroraDBParameterGroup'
       AutoMinorVersionUpgrade: !Ref 'DBAutoMinorVersionUpgrade'
       Tags:
         - Key: Name
@@ -121,11 +137,12 @@ Resources:
     Type: AWS::RDS::DBInstance
     Condition: CreateReadReplica
     Properties:
-      Engine: aurora
-      EngineVersion: '5.6'
+      Engine: aurora-mysql
+      EngineVersion: '5.7.mysql_aurora.2.08.2'
       DBClusterIdentifier: !Ref 'AuroraDBCluster'
       DBInstanceClass: !Ref 'DBInstanceClass'
       DBSubnetGroupName: !Ref 'AuroraDBSubnetGroup'
+      DBParameterGroupName: !Ref 'AuroraDBParameterGroup'
       AutoMinorVersionUpgrade: !Ref 'DBAutoMinorVersionUpgrade'
       Tags:
         - Key: Name
